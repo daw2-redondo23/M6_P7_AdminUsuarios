@@ -12,5 +12,9 @@
   "devDependencies": {
     "gh-pages": "^5.0.0",
     "vite": "^3.2.0"
+  },
+  "dependencies": {
+    "@multiavatar/multiavatar": "^1.0.7",
+    "uuid": "^9.0.0"
   }
 }
