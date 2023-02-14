@@ -4,28 +4,27 @@ import { v4 as uuidv4 } from 'uuid';
 import multiavatar from '@multiavatar/multiavatar/esm'
 import { editarPerfil } from "../componentes/EditarPerfil.js";
 
-var registro = registre.template
 export const admin = {
-    template: `<div class="row">
-                <div class="col-3">
-                    ${registro}
+    template: `<div class="row justify-content-between">
+                <div class="col-3 border" id="div-formulario">
                 </div>
-                <div class="col-9" id="div-tabla">
+                <div class="col-8 border" id="div-tabla">
 
                 </div>
             </div>`,
     script: ()=>{
         document.querySelector('#modalDiv').innerHTML = editarPerfil.template
         document.querySelector('#div-tabla').innerHTML = adminUsuarios.pintaTabla()
+        document.querySelector('#div-formulario').innerHTML = registre.template
         const tbody = document.createElement('tbody')
         let fila =''
         for(let i = 0; i< adminUsuarios.array.length; i++){
             
             fila += `<tr id="${i}">
-                        <td>${i}</td>
+                        <td>${adminUsuarios.array[i].id}</td>
                         <td>${adminUsuarios.array[i].nick}</td>
                         <td>${adminUsuarios.array[i].email}</td>
-                        <td><button type="button" class="btn btn-warning editar" id="editar" data-id = "${i}" data-bs-toggle="modal" data-bs-target="#modalExample">Editar</button><button type="button" class="btn btn-danger eliminar" data-id = "${i}">Eliminar</button></td>
+                        <td><button type="button" class="btn btn-warning editar" id="editar" data-id = "${adminUsuarios.array[i].id}" data-bs-toggle="modal" data-bs-target="#modal">Editar</button><button type="button" class="btn btn-danger eliminar" data-id = "${adminUsuarios.array[i].id}">Eliminar</button></td>
                     </tr>`
         }
         tbody.innerHTML = fila
@@ -50,9 +49,9 @@ export const admin = {
             console.dir(objeto.id);
             let fila= `<tr>
                             <td>${objeto.id}</td>
-                            <td>${nick}</td>
+                            <td id="nick-tabla">${nick}</td>
                             <td>${email}</td>
-                            <td><button type="button" class="btn btn-warning editar" data-id = "${objeto.id}">Editar</button><button type="button" class="btn btn-danger eliminar" data-id = "${objeto.id}">Eliminar</button></td>
+                            <td><button type="button" class="btn btn-warning editar" data-id = "${objeto.id}"  data-bs-toggle="modal" data-bs-target="#modal">Editar</button><button type="button" class="btn btn-danger eliminar" data-id = "${objeto.id}">Eliminar</button></td>
                         </tr>`
             const tr = document.createElement('tr')
             tr.setAttribute("id", objeto.id)
@@ -68,18 +67,33 @@ export const admin = {
             document.querySelector('#foto').innerHTML = svgCode
         })
         
+        
     },
     controlTeclas: ()=>{
         const btnEditar = document.querySelectorAll(".editar");
 
         for (let i = 0; i < btnEditar.length; i++) {
             btnEditar[i].addEventListener("click", (event)=>{
-                const myModal = document.getElementById('modalExample')
-                const myInput = btnEditar
-                myModal.addEventListener('shown.bs.modal', () => {
-                    console.log("estoy dentro");
-                    myInput.focus()
-                  })
+                console.log("estoy dentro");
+                let id = event.target.getAttribute("data-id")
+                console.log(id);
+                const found = adminUsuarios.array.find(element => element.id == id);
+                
+                document.querySelector('#nick-editar').value = found.nick
+                document.querySelector('#email-editar').value = found.email
+                document.querySelector('#pass-editar').value = found.pass
+                document.querySelector('#input-hidden').value = found.id
+                
+                
+                let svgCode = multiavatar(found.nick)
+                document.querySelector('#foto-perfil').innerHTML = svgCode
+                
+                document.querySelector('#nick-editar').addEventListener('keyup',(event)=>{
+                    let svgCode = multiavatar(event.target.value)
+                    document.querySelector('#foto-perfil').innerHTML = svgCode
+                })
+                document.querySelector('#btn-actualizar').addEventListener("click", editarPerfil.actualizarUsuario)
+ 
             })
         }
         const btnEliminar = document.querySelectorAll(".eliminar");

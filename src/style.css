@@ -18,3 +18,10 @@ h1{
   height: 50px;
   border-radius: 2rem;
 }
+
+#foto-perfil{
+  margin-top: 30px;
+  margin-left: 120px;
+  height: 250px;
+  width: 250px;
+}
