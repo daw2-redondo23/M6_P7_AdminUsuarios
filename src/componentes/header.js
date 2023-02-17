@@ -7,7 +7,7 @@ export const header = {
         <li id="home" class="pe-4">Home</li>
         <li id="about" class="pe-4">About</li>
         <li id="admin" class="pe-4">Admin</li>
-        
+        <li id="login" class="pe-4">Login</li>
     </ul>
 </nav>`,
     script: ()=>{
@@ -20,7 +20,9 @@ export const header = {
         document.querySelector('#admin').addEventListener("click", ()=>{
             router.admin()
         })
-        
+        document.querySelector('#login').addEventListener("click", ()=>{
+            router.login()
+        })
     }
 
 }

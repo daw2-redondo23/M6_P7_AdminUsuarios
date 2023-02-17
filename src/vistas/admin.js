@@ -33,9 +33,12 @@ export const admin = {
         document.querySelector('table').append(tbody)
        
         
-        document.getElementById('boton-enviar').addEventListener('click', ()=>{
-            event.preventDefault();
-            let nick = document.getElementById('nick').value;
+        document.getElementById('boton-enviar').addEventListener('click', (e)=>{
+            e.preventDefault();
+            document.querySelector('#form').classList.add('was-validated');
+            if(form.checkValidity()){
+                form.classList.remove('was-validated')
+                let nick = document.getElementById('nick').value;
             let email = document.getElementById('email').value;
             let Password = document.getElementById('pass').value;
            
@@ -60,6 +63,8 @@ export const admin = {
             document.querySelector('tbody').append(tr)
             console.log(tr);
             admin.controlTeclas()
+            }
+            
         })
 
         document.querySelector('#nick').addEventListener('keyup',(event)=>{
@@ -92,7 +97,13 @@ export const admin = {
                     let svgCode = multiavatar(event.target.value)
                     document.querySelector('#foto-perfil').innerHTML = svgCode
                 })
-                document.querySelector('#btn-actualizar').addEventListener("click", editarPerfil.actualizarUsuario)
+                document.querySelector('#btn-actualizar').addEventListener("click", (e)=>{
+                    e.preventDefault()
+                    document.querySelector('#form2').classList.add('was-validated');
+                        if(form2.checkValidity()){
+                            form.classList.remove('was-validated')
+                            editarPerfil.actualizarUsuario()
+                            }})
  
             })
         }

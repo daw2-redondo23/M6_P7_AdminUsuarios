@@ -15,7 +15,6 @@ export const adminUsuarios = {
         }
     ],
     pintaTabla: ()=>{
-        let fila = ''
         let html = `<table class="table table-striped" id="tabla">
                         <thead>
                             <tr>
